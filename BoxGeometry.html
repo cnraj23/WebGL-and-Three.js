@@ -18,6 +18,8 @@
 
 <body>
     <script src="js/three.js"></script>
+    <script src="js/OrbitControls.js"></script>
+
 
     <script>
         var scene = new THREE.Scene( );
@@ -26,6 +28,19 @@
         var renderer = new THREE.WebGLRenderer( );
         renderer.setSize( window.innerWidth, window.innerHeight );
         document.body.appendChild( renderer.domElement );
+
+        // resize the window according to the size of window
+        window.addEventListener( 'resize', function( )
+        {
+          var width = window.innerWidth;
+          var height = window.innerHeight;
+          renderer.setSize( width, height );
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix( );
+        } );
+
+        // adds mouse controls to the system can rotate zoom and play with the box using mouse
+        controls = new THREE.OrbitControls( camera, renderer.domElement );
 
         // create the shape
         var geometry = new THREE.BoxGeometry(1,1,1);
