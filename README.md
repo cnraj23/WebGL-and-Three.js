@@ -6,3 +6,5 @@ To run these html files successfully include the 'js' folder in the same path or
 
 Initial files which I am adding are similar to my lessons learnt in the Udemy couse of WebGL and Three.js
 It is more like my demosnstration of my skills in webGL and this is how I learnt this.
+
+To run all these files I am using localhost with XAMPP. Put all these files inside 'htdocs' and then run the file like this: 'localhost/BoxGeometry.html'
