@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>three.js course</title>
+
+    <style>
+        body {
+          margin: 0;
+        }
+        canvas {
+          width: 100%;
+          height: 100%;
+        };
+    </style>
+</head>
+
+<body>
+    <script src="js/three.js"></script>
+    <script src="js/OrbitControls.js"></script>
+
+
+    <script>
+        var scene = new THREE.Scene( );
+        var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1.0, 1000 );
+
+        var renderer = new THREE.WebGLRenderer( );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+
+        // resize the window according to the size of window
+        window.addEventListener( 'resize', function( )
+        {
+          var width = window.innerWidth;
+          var height = window.innerHeight;
+          renderer.setSize( width, height );
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix( );
+        } );
+
+        // adds mouse controls to the system can rotate zoom and play with the box using mouse
+        controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+        // create the shape
+        var geometry = new THREE.BoxGeometry(1,1,1);
+        var cubeMaterials =
+        [
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader( ).load( 'img/1.jpg' ), side: THREE.DoubleSide } ),// right
+          new THREE.MeshPhongMaterial( { color: 0x55c5b4, wireframe: false } ), // left
+          new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader( ).load( 'img/3.jpg' ), side: THREE.DoubleSide } ), //top
+          new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader( ).load( 'img/4.jpg' ), side: THREE.DoubleSide } ), //bottom
+          new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader( ).load( 'img/5.jpg' ), side: THREE.DoubleSide } ),// front
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader( ).load( 'img/6.jpg' ), side: THREE.DoubleSide } ) //back
+        ];
+
+        // create material, color or image texture
+        var material = new THREE.MeshFaceMaterial( cubeMaterials );
+
+
+        //  var material = new THREE.MeshBasicMaterial( {color: 0xffa0ab, wireframe: true} );
+        var cube = new THREE.Mesh( geometry, material );
+        scene.add( cube );
+
+        camera.position.z = 3;
+
+        // ambient Light
+        var ambientLight = new THREE.AmbientLight( 0xFFFFFF, 0.8 );
+        scene.add( ambientLight );
+
+        //point Light
+        var light1 = new THREE.PointLight( 0xFF0040, 4, 50 ); //( color, intensity, distance of effect )
+        scene.add( light1 );
+
+        var light2 = new THREE.PointLight( 0xFF40FF, 2, 50 ); //( color, intensity, distance of effect )
+        scene.add( light2 );
+
+        var light3 = new THREE.PointLight( 0x80FF80, 3, 50 ); //( color, intensity, distance of effect )
+        scene.add( light3 );
+
+        // directional Light
+        var directionalLight = new THREE.DirectionalLight( 0xFFFFFF, 1 );
+        directionalLight.position.set( 0, 1, 0 );
+        scene.add( directionalLight );
+
+        // Spot Light
+        var spotLight = new THREE.SpotLight( 0xFF45F6, 2 );
+        spotLight.position.set(0, 3, 0);
+        scene.add(spotLight);
+
+        // game logic
+        var update = function( )
+        {
+          //   cube.rotation.x += 0.01;
+          //   cube.rotation.y += 0.01;
+          //   cube.rotation.z += 0.01;
+          var lightTime = Date.now( ) * 0.0005;
+          light1.position.x = Math.sin( lightTime * 0.7 ) * 30;
+          light1.position.y = Math.cos( lightTime * 0.5 ) * 40;
+          light1.position.z = Math.tan( lightTime * 0.3 ) * 30;
+
+          light2.position.x = Math.cos( lightTime * 0.4 ) * 30;
+          light2.position.y = Math.sin( lightTime * 0.5 ) * 40;
+          light2.position.z = Math.sin( lightTime * 0.7 ) * 30;
+
+          light3.position.x = Math.sin( lightTime * 0.7 ) * 30;
+          light3.position.y = Math.cos( lightTime * 0.3 ) * 40;
+          light3.position.z = Math.sin( lightTime * 0.5 ) * 30;
+
+          directionalLight.position.x = Math.sin(lightTime * 0.8 ) * 60;
+
+        };
+
+        // draw scene
+        var render = function( )
+        {
+          renderer.render( scene, camera );
+
+        };
+
+        // run Game Loop (update, render, repeat)
+        var GameLoop = function( )
+        {
+          requestAnimationFrame( GameLoop );
+
+          update( );
+          render( );
+        };
+
+        GameLoop( );
+    </script>
+</body>
+</html>
